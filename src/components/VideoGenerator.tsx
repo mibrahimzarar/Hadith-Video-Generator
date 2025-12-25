@@ -108,7 +108,8 @@ function VideoGenerator({ imageDataUrl, audioFile, onReset }: VideoGeneratorProp
       setProgressText('Finalizing video...')
       setProgress(99)
       const data = await ffmpeg.readFile('output.mp4')
-      const videoBlob = new Blob([data], { type: 'video/mp4' })
+      // Convert to Uint8Array to ensure proper type compatibility with Blob
+      const videoBlob = new Blob([new Uint8Array(data as Uint8Array)], { type: 'video/mp4' })
       const url = URL.createObjectURL(videoBlob)
       
       // Cleanup temporary files
